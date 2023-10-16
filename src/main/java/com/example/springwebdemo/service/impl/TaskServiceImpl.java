@@ -1,6 +1,7 @@
 package com.example.springwebdemo.service.impl;
 
 import com.example.springwebdemo.entity.Task;
+import com.example.springwebdemo.model.TaskBasicDTO;
 import com.example.springwebdemo.model.TaskCreateDTO;
 import com.example.springwebdemo.model.TaskDTO;
 import com.example.springwebdemo.repository.TaskRepository;
@@ -8,6 +9,7 @@ import com.example.springwebdemo.service.TasksService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TasksService {
@@ -41,5 +43,14 @@ public class TaskServiceImpl implements TasksService {
         dto.addTags(savedTask.getTags());
 
         return dto;
+    }
+
+    @Override
+    public List<TaskBasicDTO> listTasks() {
+        return repository.findAll().map(this::toBasicDTO).toList();
+    }
+
+    private TaskBasicDTO toBasicDTO(Task task) {
+        return new TaskBasicDTO(task.getId(), task.getDescription(), task.isCompleted());
     }
 }

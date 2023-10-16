@@ -4,8 +4,10 @@ import com.example.springwebdemo.entity.Task;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Stream;
 
 @Repository
 public class TaskRepository {
@@ -19,5 +21,9 @@ public class TaskRepository {
         task.setId(id);
         storage.put(task.getId(), task);
         return task;
+    }
+
+    public Stream<Task> findAll() {
+        return storage.values().stream();
     }
 }
